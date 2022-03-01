@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Home"
+        android:icon="@drawable/ic_home"
+        android:id="@+id/homeScreen"
+        />
+    <item
+        android:title="Goals"
+        android:icon="@drawable/ic_star"
+        android:id="@+id/goalScreen"
+        />
+    <item
+        android:title="Stats"
+        android:icon="@drawable/ic_chart"
+        android:id="@+id/statsScreen"
+        />
+    <item
+        android:title="Offset"
+        android:icon="@drawable/ic_temp"
+        android:id="@+id/offsetScreen"
+        />
+</menu>
