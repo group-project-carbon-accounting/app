@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/offsetScreen"
-        android:name="uk.ac.cam.dddc2.carbonapp.OffsetScreen"
+        android:name="uk.ac.cam.dddc2.carbonapp.fragments.OffsetScreen"
         android:label="fragment_offset_screen"
         tools:layout="@layout/fragment_offset_screen" />
     <fragment
         android:id="@+id/homeScreen"
-        android:name="uk.ac.cam.dddc2.carbonapp.HomeScreen"
+        android:name="uk.ac.cam.dddc2.carbonapp.fragments.HomeScreen"
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen" />
     <fragment
         android:id="@+id/goalScreen"
-        android:name="uk.ac.cam.dddc2.carbonapp.GoalScreen"
+        android:name="uk.ac.cam.dddc2.carbonapp.fragments.GoalScreen"
         android:label="fragment_goal_screen"
         tools:layout="@layout/fragment_goal_screen" />
     <fragment
         android:id="@+id/statsScreen"
-        android:name="uk.ac.cam.dddc2.carbonapp.StatsScreen"
+        android:name="uk.ac.cam.dddc2.carbonapp.fragments.StatsScreen"
         android:label="fragment_stats_screen"
         tools:layout="@layout/fragment_stats_screen" />
 </navigation>

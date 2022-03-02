@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">CarbonApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="goals">Goals</string>
+    <string name="stats">Stats</string>
+    <string name="offset">Offset</string>
+    <string name="offset_provider">Offset Provider:</string>
+    <string name="offset_carbon">Offset carbon</string>
+    <string name="sample_price">Sample Price</string>
+    <string name="sample_description">Sample Description</string>
 </resources>

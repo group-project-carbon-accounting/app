@@ -6,15 +6,20 @@
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/drawable/circle.xml" value="0.3305" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/drawable/circular_graph.xml" value="0.2985" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/activity_main.xml" value="0.23020833333333332" />
+        <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/change_transaction_amount.xml" value="0.20871327254305977" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/fragment_goal_screen.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/fragment_home_screen.xml" value="0.33" />
-        <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/fragment_offset_screen.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/fragment_offset_amount.xml" value="0.1" />
+        <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/fragment_offset_screen.xml" value="0.1" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/fragment_stats_screen.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/goals_page.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/home_page.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/list_items.xml" value="0.5" />
+        <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/offset_list_item.xml" value="0.20871327254305977" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/offset_page.xml" value="0.23020833333333332" />
+        <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/pop_up_window.xml" value="0.42916666666666664" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/stats_page.xml" value="0.23020833333333332" />
+        <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/layout/transaction_list_item.xml" value="0.396286231884058" />
         <entry key="..\:/Users/Dominik Cusk/AndroidStudioProjects/CarbonApp/app/src/main/res/menu/navigation_menu.xml" value="0.42916666666666664" />
       </map>
     </option>

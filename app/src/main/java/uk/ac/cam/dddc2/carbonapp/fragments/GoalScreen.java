@@ -1,4 +1,4 @@
-package uk.ac.cam.dddc2.carbonapp;
+package uk.ac.cam.dddc2.carbonapp.fragments;
 
 import android.os.Bundle;
 
@@ -7,14 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
+import uk.ac.cam.dddc2.carbonapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeScreen#newInstance} factory method to
+ * Use the {@link GoalScreen#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeScreen extends Fragment {
+public class GoalScreen extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +26,7 @@ public class HomeScreen extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HomeScreen() {
+    public GoalScreen() {
         // Required empty public constructor
     }
 
@@ -35,11 +36,11 @@ public class HomeScreen extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeScreen.
+     * @return A new instance of fragment GoalScreen.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeScreen newInstance(String param1, String param2) {
-        HomeScreen fragment = new HomeScreen();
+    public static GoalScreen newInstance(String param1, String param2) {
+        GoalScreen fragment = new GoalScreen();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,7 +61,6 @@ public class HomeScreen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_screen, container, false);
+        return inflater.inflate(R.layout.fragment_goal_screen, container, false);
     }
-
 }

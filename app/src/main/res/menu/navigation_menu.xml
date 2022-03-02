@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/ic_home"
         android:id="@+id/homeScreen"
         />
     <item
-        android:title="Goals"
+        android:title="@string/goals"
         android:icon="@drawable/ic_star"
         android:id="@+id/goalScreen"
         />
     <item
-        android:title="Stats"
+        android:title="@string/stats"
         android:icon="@drawable/ic_chart"
         android:id="@+id/statsScreen"
         />
     <item
-        android:title="Offset"
+        android:title="@string/offset"
         android:icon="@drawable/ic_temp"
         android:id="@+id/offsetScreen"
         />

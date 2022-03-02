@@ -249,7 +249,10 @@ public class Connections {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+        // Should never get here but just in case an empty ArrayList is returned which won't crash
+        // the application but will result in an empty offsetList
+        return new ArrayList<>();
     }
 
     public static void doOffset(Offset offsetChoice, int offsetAmount) throws OffsetFailedException {
