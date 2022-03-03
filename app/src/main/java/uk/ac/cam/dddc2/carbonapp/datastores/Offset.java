@@ -4,9 +4,9 @@ public class Offset {
     private int vendorID;
     private String vendor;
     private String description;
-    private float price;
+    private int price;
 
-    public Offset(int vendorID, String vendor, String description, float price) {
+    public Offset(int vendorID, String vendor, String description, int price) {
         this.vendorID = vendorID;
         this.vendor = vendor;
         this.description = description;
@@ -25,7 +25,7 @@ public class Offset {
         return description;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 }

@@ -62,8 +62,14 @@ public class OffsetScreen extends Fragment {
         Thread serverRequest = new Thread() {
             @Override
             public void run() {
+                // TODO: CHECK OFFSET TABLE IN DATABASE IS IMPLEMENTED
                 //offsetList.addAll(Connections.getOffsetOptions());
-                offsetList.add(new Offset(1, "Test Vendor", "Sample description text", 10));
+
+                // TEMPORARY OFFSET OPTIONS FOR TESTING PURPOSES
+                offsetList.add(new Offset(1,
+                        "Trees4Life",
+                        "The Amazon Rainforest has suffered from intense deforestation in recent years. We aim to try and reverse this with your help!",
+                        10));
             }
         };
         serverRequest.start();

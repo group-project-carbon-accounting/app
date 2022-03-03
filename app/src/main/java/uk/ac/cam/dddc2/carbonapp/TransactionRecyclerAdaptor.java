@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import uk.ac.cam.dddc2.carbonapp.datastores.Transaction;
+import uk.ac.cam.dddc2.carbonapp.fragments.TransactionInfoDialogFragment;
 
 public class TransactionRecyclerAdaptor extends RecyclerView.Adapter<TransactionRecyclerAdaptor.TransactionViewHolder> {
 
@@ -23,14 +24,16 @@ public class TransactionRecyclerAdaptor extends RecyclerView.Adapter<Transaction
         private TextView timestampText;
         private TextView vendorText;
         private TextView priceText;
+        private TextView carbonCostText;
         private ImageButton editButton;
 
         public TransactionViewHolder(final View itemView) {
             super(itemView);
             timestampText = itemView.findViewById(R.id.transactionTimestampLabel);
             vendorText = itemView.findViewById(R.id.transactionVendorLabel);
-            priceText = itemView.findViewById(R.id.transactionPrice);
+            priceText = itemView.findViewById(R.id.transactionPriceLabel);
             editButton = itemView.findViewById(R.id.editTransactionButton);
+            carbonCostText = itemView.findViewById(R.id.carbonCostLabel);
         }
     }
 
@@ -49,18 +52,17 @@ public class TransactionRecyclerAdaptor extends RecyclerView.Adapter<Transaction
     @Override
     public void onBindViewHolder(@NonNull TransactionRecyclerAdaptor.TransactionViewHolder holder, int position) {
         String timestamp = "Transaction time: " + transactionList.get(position).getTimestamp();
-        String vendor = "Vender: " + transactionList.get(position).getVendor();
-        String price = "Price: " + Float.toString(transactionList.get(position).getPrice());
-        String carbonCost = "Carbon Cost: " + Float.toString(transactionList.get(position).getCarbonCostOffset());
+        String vendor = "Vendor: " + transactionList.get(position).getVendor();
+        String price = "Price: " + transactionList.get(position).getPrice();
+        String carbonCost = "Carbon Cost: " + transactionList.get(position).getCarbonCostOffset();
         holder.timestampText.setText(timestamp);
         holder.vendorText.setText(vendor);
         holder.priceText.setText(price);
+        holder.carbonCostText.setText(carbonCost);
 
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        holder.editButton.setOnClickListener(view -> {
+            TransactionInfoDialogFragment transactionInfoDialogFragment = new TransactionInfoDialogFragment();
+            transactionInfoDialogFragment.show(fragmentManager, "change_transaction_amount");
         });
 
     }

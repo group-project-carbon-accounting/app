@@ -19,15 +19,16 @@ import uk.ac.cam.dddc2.carbonapp.exceptions.TransactionUpdateFailedException;
 
 // TODO: Potentially replace timestamp datatype with Date instead of String after checking what format the server returns
 public class Connections {
-    public static UserData getCostData() {
+    private static final String serverURL = "http://10.30.62.138:8889";
+
+    public static UserData getUserData() {
         try {
             // request is of the form /user/get/{user_id}
-            URL url = new URL("http://localhost:8889/user/get/1");
+            URL url = new URL(serverURL + "/user/get/1");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
-            connection.setDoOutput(true);
+            //connection.setReadTimeout(5000);
 
             String line;
             StringBuilder responseString = new StringBuilder();
@@ -39,12 +40,14 @@ public class Connections {
 
             String response = responseString.toString();
 
+            // {"carbon_offset": 0, "carbon_cost": 0, "name": "Albert"}
+
             /* At this point response should have the form:
 
             {
-                "name":*,
-                "carbon_cost:*,
-                "carbon_offset":*
+                "carbon_offset": ,
+                "carbon_cost: *,
+                "name": *
              }
 
              */
@@ -58,15 +61,15 @@ public class Connections {
             int secondPointer;
             firstPointer = response.indexOf(':');
             secondPointer = response.indexOf(',', firstPointer + 1);
-            name = response.substring(firstPointer + 1, secondPointer);
+            carbonOffset = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
             firstPointer = response.indexOf(':', secondPointer);
             secondPointer = response.indexOf(',', secondPointer + 1);
-            carbonCost = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+            carbonCost = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
             firstPointer = response.indexOf(':', secondPointer);
             secondPointer = response.lastIndexOf('}');
-            carbonOffset = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+            name = response.substring(firstPointer + 2, secondPointer);
 
             return new UserData(name, carbonCost, carbonOffset);
 
@@ -75,18 +78,18 @@ public class Connections {
         }
 
         // Should never get here
-        return null;
+        return new UserData("Error", 0, 0);
     }
 
     public static ArrayList<Transaction> getTransactionsForPeriod(int dayCount) {
+        ArrayList<Transaction> returnValue = new ArrayList<>();
         try {
             // request is of the form /transaction/get_recent/{user_id}/{num_of_days}
-            URL url = new URL("http://localhost:8889/transaction/get_recent/1/" + dayCount);
+            URL url = new URL(serverURL + "/transaction/get_recent/1/" + dayCount);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
-            connection.setDoOutput(true);
 
             String line;
             StringBuilder responseString = new StringBuilder();
@@ -97,20 +100,23 @@ public class Connections {
             reader.close();
 
             String response = responseString.toString();
+            System.out.println(response);
+
+            //{"carbon_cost": 0, "carbon_offset": 0, "transactions": [{"transaction_id": 1, "price": 1200, "carbon_cost_offset": 0, "vendor": 6, "timestamp": 1646263071}]}
 
             /* At this point response should have the form:
 
             {
-                "carbon_cost:*,
-                "carbon_offset":*
+                "carbon_cost: *,
+                "carbon_offset": *
                 "transactions":
                     [
                         {
-                            "transaction_id":*,
-                            "price":*,
-                            "carbon_cost_offset":*,
-                            "vendor":*,
-                            "timestamp":*
+                            "transaction_id": *,
+                            "price": *,
+                            "carbon_cost_offset": *,
+                            "vendor": *,
+                            "timestamp": *
                         },
                         {
                             ...
@@ -123,7 +129,6 @@ public class Connections {
 
 
             boolean continueLoop = true;
-            ArrayList<Transaction> returnValue = new ArrayList<>();
 
             int firstPointer = response.indexOf('[');
             int secondPointer = response.indexOf(',', firstPointer);
@@ -141,23 +146,23 @@ public class Connections {
 
                 firstPointer = response.indexOf(':', firstPointer + 1);
                 secondPointer = response.indexOf(',', firstPointer);
-                transactionID = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+                transactionID = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
                 firstPointer = response.indexOf(':', secondPointer);
                 secondPointer = response.indexOf(',', secondPointer + 1);
-                price = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+                price = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
                 firstPointer = response.indexOf(':', secondPointer);
                 secondPointer = response.indexOf(',', secondPointer + 1);
-                carbonCostOffset = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+                carbonCostOffset = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
                 firstPointer = response.indexOf(':', secondPointer);
                 secondPointer = response.indexOf(',', secondPointer + 1);
-                vendor = response.substring(firstPointer + 1, secondPointer);
+                vendor = response.substring(firstPointer + 2, secondPointer);
 
                 firstPointer = response.indexOf(':', secondPointer);
                 secondPointer = response.indexOf('}', secondPointer + 1);
-                timestamp = response.substring(firstPointer + 1, secondPointer);
+                timestamp = response.substring(firstPointer + 2, secondPointer);
 
                 returnValue.add(new Transaction(transactionID, price, carbonCostOffset, vendor, timestamp));
 
@@ -169,13 +174,17 @@ public class Connections {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+        // Will only get here in the case of a connection error and so will return just an empty
+        // ArrayList
+        return returnValue;
     }
 
     public static ArrayList<Offset> getOffsetOptions() {
+        ArrayList<Offset> returnValue = new ArrayList<>();
         try {
             // request is of the form /offset/get
-            URL url = new URL("http://localhost:8889/offset/get");
+            URL url = new URL(serverURL + "/offset/get");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
@@ -196,10 +205,10 @@ public class Connections {
 
             [
                 {
-                    "vendor_id":*,
-                    "vendor":,*,
-                    "description":*,
-                    "price":*
+                    "vendor_id": *,
+                    "vendor": *,
+                    "description": *,
+                    "price": *
                 },
                 ...
             ]
@@ -208,7 +217,7 @@ public class Connections {
 
 
             boolean continueLoop = true;
-            ArrayList<Offset> returnValue = new ArrayList<>();
+
 
             int firstPointer = response.indexOf('[');
             int secondPointer = response.indexOf(',', firstPointer);
@@ -250,15 +259,15 @@ public class Connections {
             e.printStackTrace();
         }
 
-        // Should never get here but just in case an empty ArrayList is returned which won't crash
-        // the application but will result in an empty offsetList
-        return new ArrayList<>();
+        // Will only get here in the case of a connection error and so will return just an empty
+        // ArrayList
+        return returnValue;
     }
 
     public static void doOffset(Offset offsetChoice, int offsetAmount) throws OffsetFailedException {
         try {
             // request is of the form /offset/offset
-            URL url = new URL("http://localhost:8889/offset/offset");
+            URL url = new URL(serverURL + "/offset/offset");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setConnectTimeout(5000);

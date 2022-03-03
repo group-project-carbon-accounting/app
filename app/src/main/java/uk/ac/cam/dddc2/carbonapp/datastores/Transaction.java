@@ -2,12 +2,12 @@ package uk.ac.cam.dddc2.carbonapp.datastores;
 
 public class Transaction {
     private int transactionID;
-    private float price;
+    private int price;
     private int carbonCostOffset;
     private String vendor;
     private String timestamp;
 
-    public Transaction(int transactionID, float price, int carbonCostOffset, String vendor, String timestamp) {
+    public Transaction(int transactionID, int price, int carbonCostOffset, String vendor, String timestamp) {
         this.transactionID = transactionID;
         this.price = price;
         this.carbonCostOffset = carbonCostOffset;
@@ -19,7 +19,7 @@ public class Transaction {
         return transactionID;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -33,5 +33,18 @@ public class Transaction {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Transaction other = (Transaction) o;
+        return transactionID == other.getTransactionID();
     }
 }

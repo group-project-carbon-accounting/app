@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/evergreen"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

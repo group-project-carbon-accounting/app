@@ -8,23 +8,31 @@
     tools:context=".MainActivity">
 
 
-
-
-    <!--
     <ProgressBar
-        android:id="@+id/progress_bar_main"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/progressBarMain"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:indeterminate="false"
         android:indeterminateOnly="false"
-        android:progress="100"
         android:progressDrawable="@drawable/circle"
-        android:translationY="64dp"
+        android:progress="70"
+        app:layout_constraintBottom_toTopOf="@id/imageViewHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-        -->
+
+    <TextView
+        android:id="@+id/progressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/progressBarMain"
+        app:layout_constraintTop_toTopOf="@id/progressBarMain"
+        app:layout_constraintLeft_toLeftOf="@id/progressBarMain"
+        app:layout_constraintRight_toRightOf="@id/progressBarMain" />
+
+
+
+
+
 
     <ImageView
         android:id="@+id/imageViewHome"
@@ -35,17 +43,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBarMain" />
-
-    <ProgressBar
-        android:id="@+id/progressBarMain"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="124dp"
-        android:layout_height="61dp"
-        android:progress="40"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewHome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/testButton1"

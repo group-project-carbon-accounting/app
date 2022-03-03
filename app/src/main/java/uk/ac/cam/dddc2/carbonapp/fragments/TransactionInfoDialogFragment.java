@@ -28,7 +28,7 @@ public class TransactionInfoDialogFragment extends DialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        transactionAmountEntry = view.findViewById(R.id.editTransactionAmount);
+        transactionAmountEntry = view.findViewById(R.id.editTransactionAmountEntry);
         transactionAmountEntry.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }

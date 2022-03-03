@@ -52,18 +52,15 @@ public class OffsetRecyclerAdaptor extends RecyclerView.Adapter<OffsetRecyclerAd
     public void onBindViewHolder(@NonNull OffsetRecyclerAdaptor.OffsetViewHolder holder, int position) {
         String name = "Vendor: " + offsetList.get(position).getVendor();
         String description = offsetList.get(position).getDescription();
-        String price = "Price: " + Float.toString(offsetList.get(position).getPrice());
+        String price = "Price: " + offsetList.get(position).getPrice();
         holder.nameText.setText(name);
         holder.descriptionText.setText(description);
         holder.priceText.setText(price);
 
 
-        holder.offsetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                OffsetChoiceDialogFragment offsetChoiceDialogFragment = new OffsetChoiceDialogFragment();
-                offsetChoiceDialogFragment.show(fragmentManager, "fragment_offset_amount");
-            }
+        holder.offsetButton.setOnClickListener(view -> {
+            OffsetChoiceDialogFragment offsetChoiceDialogFragment = new OffsetChoiceDialogFragment();
+            offsetChoiceDialogFragment.show(fragmentManager, "fragment_offset_amount");
         });
     }
 

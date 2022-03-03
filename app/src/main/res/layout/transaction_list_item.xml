@@ -24,13 +24,12 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="Date"
-        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/transactionPriceLabel"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/transactionPrice"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/transactionPrice"
+        android:id="@+id/transactionPriceLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -38,7 +37,8 @@
         android:layout_marginBottom="16dp"
         android:text="@string/sample_price"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/transactionTimestampLabel" />
+        app:layout_constraintTop_toBottomOf="@id/transactionTimestampLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageButton
         android:id="@+id/editTransactionButton"
@@ -52,7 +52,17 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-
+    <TextView
+        android:id="@+id/carbonCostLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Carbon Cost"
+        app:layout_constraintTop_toBottomOf="@id/transactionVendorLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editTransactionButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

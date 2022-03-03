@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import uk.ac.cam.dddc2.carbonapp.Connections;
 import uk.ac.cam.dddc2.carbonapp.R;
 import uk.ac.cam.dddc2.carbonapp.TransactionRecyclerAdaptor;
 import uk.ac.cam.dddc2.carbonapp.datastores.Transaction;
@@ -57,8 +58,15 @@ public class StatsScreen extends Fragment {
     }
 
     private void setTransactionInfo() {
-        transactionList.add(new Transaction(1, 10, 15, "Test1", "TestTime1"));
-        transactionList.add(new Transaction(2, 20, 25, "Test2", "TestTime2"));
-        transactionList.add(new Transaction(3, 30, 35, "Test3", "TestTime3"));
+        Thread serverRequest = new Thread() {
+            @Override
+            public void run() {
+                // TODO FIX BUG WHERE ENTERING THIS SCREEN MULTIPLE TIMES RE ADDS TRANSACTIONS INSTEAD OF JUST ADDING NEW ONES
+                transactionList.addAll(Connections.getTransactionsForPeriod(7));
+                //transactionList.add(new Transaction(1, 10, 15, "Test1", "TestTime1"));
+                //transactionList.add(new Transaction(1, 10, 15, "Test1", "TestTime1"));
+            }
+        };
+        serverRequest.start();
     }
 }
