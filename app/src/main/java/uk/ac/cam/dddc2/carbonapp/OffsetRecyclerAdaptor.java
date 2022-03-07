@@ -59,7 +59,7 @@ public class OffsetRecyclerAdaptor extends RecyclerView.Adapter<OffsetRecyclerAd
 
 
         holder.offsetButton.setOnClickListener(view -> {
-            OffsetChoiceDialogFragment offsetChoiceDialogFragment = new OffsetChoiceDialogFragment();
+            OffsetChoiceDialogFragment offsetChoiceDialogFragment = new OffsetChoiceDialogFragment(offsetList.get(position), this, position);
             offsetChoiceDialogFragment.show(fragmentManager, "fragment_offset_amount");
         });
     }

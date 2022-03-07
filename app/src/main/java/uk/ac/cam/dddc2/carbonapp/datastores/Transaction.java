@@ -35,16 +35,8 @@ public class Transaction {
         return timestamp;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Transaction other = (Transaction) o;
-        return transactionID == other.getTransactionID();
+    public void setNewCarbonCost(int newCost) {
+        // assumes that this function is only called with valid newCost
+        carbonCostOffset = newCost;
     }
 }

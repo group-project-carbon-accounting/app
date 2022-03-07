@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.GoalScreen">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/textView"
@@ -21,69 +20,124 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ProgressBar
-        android:id="@+id/progressBar10"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="61dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:rotation="-90"
-        android:progress="50"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/progressBar9"
-        app:layout_constraintStart_toEndOf="@+id/progressBar7"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
-
-    <ProgressBar
-        android:id="@+id/progressBar9"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="61dp"
-        android:layout_height="103dp"
-        android:layout_marginEnd="16dp"
-        android:rotation="-90"
-        android:progress="70"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/progressBar8"
-        app:layout_constraintTop_toTopOf="@+id/textView"
-        tools:layout_editor_absoluteY="314dp" />
-
-    <ProgressBar
-        android:id="@+id/progressBar8"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="61dp"
-        android:layout_height="103dp"
-        android:layout_marginEnd="16dp"
-        android:rotation="-90"
-        android:progress="90"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView"
-        tools:layout_editor_absoluteY="314dp" />
-
-    <ProgressBar
-        android:id="@+id/progressBar6"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="61dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="16dp"
-        android:rotation="-90"
-        android:progress="10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView"
-        tools:layout_editor_absoluteY="314dp" />
-
-    <ProgressBar
-        android:id="@+id/progressBar7"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="61dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="16dp"
-        android:rotation="-90"
-        android:progress="30"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/progressBar6"
+    <TextView
+        android:id="@+id/goalScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/goal_screen_title"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/progressBarTopText"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/progressBarTopText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@id/progressBarTop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goalScreenTitle" />
+
+    <ProgressBar
+        android:id="@+id/progressBarTop"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toTopOf="@id/progressBarTopCentreText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarTopText"/>
+
+    <TextView
+        android:id="@+id/progressBarTopCentreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@id/progressBarTopCentre"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarTop" />
+
+    <ProgressBar
+        android:id="@+id/progressBarTopCentre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toTopOf="@id/progressBarCentreText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarTopCentreText" />
+
+    <TextView
+        android:id="@+id/progressBarCentreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@id/progressBarCentre"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarTopCentre" />
+
+    <ProgressBar
+        android:id="@+id/progressBarCentre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toTopOf="@id/progressBarBottomCentreText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarCentreText" />
+
+    <TextView
+        android:id="@+id/progressBarBottomCentreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@id/progressBarBottomCentre"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarCentre" />
+
+    <ProgressBar
+        android:id="@+id/progressBarBottomCentre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toTopOf="@id/progressBarBottomText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarBottomCentreText" />
+
+    <TextView
+        android:id="@+id/progressBarBottomText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@id/progressBarBottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarBottomCentre" />
+
+    <ProgressBar
+        android:id="@+id/progressBarBottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarBottomText" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

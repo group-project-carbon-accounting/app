@@ -1,5 +1,6 @@
 package uk.ac.cam.dddc2.carbonapp.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,11 +29,11 @@ public class HomeScreen extends Fragment {
 
     ProgressBar progressBar;
     TextView progressLabel;
+    AtomicReference<String> progressText;
     int progress = 0;
-    int goal = 100;
+    int goal = GoalScreen.getUserGoal().getCarbonValue();
     ImageView image;
-
-    Button testButton1;
+    Activity a;
 
     public HomeScreen() {
         // Required empty public constructor
@@ -41,17 +42,6 @@ public class HomeScreen extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Thread serverRequest = new Thread() {
-            @Override
-            public void run() {
-                UserData userData = Connections.getUserData();
-                progress = (userData.getCarbonCost() - userData.getCarbonOffset()) / goal;
-
-            }
-        };
-        serverRequest.setDaemon(true);
-        serverRequest.start();
     }
 
     @Override
@@ -64,31 +54,46 @@ public class HomeScreen extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceStates) {
         super.onViewCreated(view, savedInstanceStates);
+        a = (Activity) getContext();
         progressBar = view.findViewById(R.id.progressBarMain);
         progressLabel = view.findViewById(R.id.progressLabel);
         progressBar.setProgress(progress);
-        AtomicReference<String> progressText = new AtomicReference<>(progress + "g / " + goal + 'g');
+        progressText = new AtomicReference<>(progress + "kg / " + goal + "kg");
         progressLabel.setText(progressText.get());
+
+        Thread serverRequest = new Thread() {
+            @Override
+            public void run() {
+                UserData userData = Connections.getUserData();
+                progress = (userData.getCarbonCost() - userData.getCarbonOffset()) / 1000;
+                updateProgress();
+            }
+        };
+        serverRequest.setDaemon(true);
+        serverRequest.start();
 
 
 
 
         image = view.findViewById(R.id.imageViewHome);
+    }
 
-
-        testButton1 = view.findViewById(R.id.testButton1);
-        testButton1.setOnClickListener(view1 -> {
-            progress = (progress + 10) % 100;
-            progressText.set(progress + "g / " + goal + 'g');
-            progressLabel.setText(progressText.get());
-            progressBar.setProgress(progress);
-            if (progress >= 50) {
-                image.setImageResource(R.drawable.sad);
+    public void updateProgress() {
+        Runnable updateView = new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setProgress(progress % 100);
+                progressText.set(progress + "kg / " + goal + "kg");
+                progressLabel.setText(progressText.get());
+                if (progress >= 50) {
+                    image.setImageResource(R.drawable.sad);
+                }
+                if (progress < 50) {
+                    image.setImageResource(R.drawable.thumbsup);
+                }
             }
-            if (progress < 50) {
-                image.setImageResource(R.drawable.thumbsup);
-            }
-        });
+        };
+        a.runOnUiThread(updateView);
 
     }
 

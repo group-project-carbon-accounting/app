@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import uk.ac.cam.dddc2.carbonapp.Connections;
 import uk.ac.cam.dddc2.carbonapp.R;
@@ -32,11 +34,6 @@ public class StatsScreen extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTransactionInfo();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,18 +52,31 @@ public class StatsScreen extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adaptor);
+        setTransactionInfo(adaptor);
     }
 
-    private void setTransactionInfo() {
+    private void setTransactionInfo(TransactionRecyclerAdaptor adaptor) {
         Thread serverRequest = new Thread() {
             @Override
             public void run() {
-                // TODO FIX BUG WHERE ENTERING THIS SCREEN MULTIPLE TIMES RE ADDS TRANSACTIONS INSTEAD OF JUST ADDING NEW ONES
-                transactionList.addAll(Connections.getTransactionsForPeriod(7));
+                // This assumes that transactions can't be removed from the database
+                int oldSize = transactionList.size();
+                ArrayList<Transaction> newTransactions = Connections.getTransactionsForPeriod(7);
+                Collections.sort(newTransactions, (t1, t2) -> Integer.compare(t1.getTransactionID(), t2.getTransactionID()));
+                int newSize = newTransactions.size();
+                for (int i = oldSize; i < newSize; i++) {
+                    transactionList.add(newTransactions.get(i));
+                }
+                System.out.println("got here");
+                Runnable updateView = () -> adaptor.notifyItemRangeInserted(oldSize, newSize - oldSize);
+                getActivity().runOnUiThread(updateView);
+
+
                 //transactionList.add(new Transaction(1, 10, 15, "Test1", "TestTime1"));
                 //transactionList.add(new Transaction(1, 10, 15, "Test1", "TestTime1"));
             }
         };
         serverRequest.start();
     }
+
 }

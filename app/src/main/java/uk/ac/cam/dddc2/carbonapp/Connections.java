@@ -100,7 +100,6 @@ public class Connections {
             reader.close();
 
             String response = responseString.toString();
-            System.out.println(response);
 
             //{"carbon_cost": 0, "carbon_offset": 0, "transactions": [{"transaction_id": 1, "price": 1200, "carbon_cost_offset": 0, "vendor": 6, "timestamp": 1646263071}]}
 
@@ -131,7 +130,7 @@ public class Connections {
             boolean continueLoop = true;
 
             int firstPointer = response.indexOf('[');
-            int secondPointer = response.indexOf(',', firstPointer);
+            int secondPointer = response.indexOf('{', firstPointer);
             // secondPointer == -1 iff the transaction list is empty as ',' will never appear
             // after the first appearance of '['
 
@@ -144,8 +143,8 @@ public class Connections {
                 String vendor;
                 String timestamp;
 
-                firstPointer = response.indexOf(':', firstPointer + 1);
-                secondPointer = response.indexOf(',', firstPointer);
+                firstPointer = response.indexOf(':', secondPointer);
+                secondPointer = response.indexOf(',', secondPointer + 1);
                 transactionID = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
                 firstPointer = response.indexOf(':', secondPointer);
@@ -189,7 +188,6 @@ public class Connections {
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
-            connection.setDoOutput(true);
 
             String line;
             StringBuilder responseString = new StringBuilder();
@@ -234,19 +232,19 @@ public class Connections {
 
                 firstPointer = response.indexOf(':', firstPointer + 1);
                 secondPointer = response.indexOf(',', firstPointer);
-                vendorID = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+                vendorID = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
                 firstPointer = response.indexOf(':', secondPointer);
                 secondPointer = response.indexOf(',', secondPointer + 1);
-                vendor = response.substring(firstPointer + 1, secondPointer);
+                vendor = response.substring(firstPointer + 2, secondPointer);
 
                 firstPointer = response.indexOf(':', secondPointer);
                 secondPointer = response.indexOf(',', secondPointer + 1);
-                description = response.substring(firstPointer + 1, secondPointer);
+                description = response.substring(firstPointer + 2, secondPointer);
 
                 firstPointer = response.indexOf(':', secondPointer);
                 secondPointer = response.indexOf('}', secondPointer + 1);
-                price = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+                price = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
 
                 returnValue.add(new Offset(vendorID, vendor, description, price));
 
@@ -275,7 +273,7 @@ public class Connections {
             connection.setDoOutput(true);
 
             // Sends the request JSON expected by the server
-            String request = "{\"user_id\":1,\"vendor_id\":" + offsetChoice.getVendorID() + ",offset_amount\":" + offsetAmount+"}";
+            String request = "{\"user_id\": 1 ,\"vendor_id\": " + offsetChoice.getVendorID() + " ,\"offset_amount\": " + offsetAmount+"}";
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(request.getBytes());
 
@@ -302,9 +300,11 @@ public class Connections {
 
              */
 
+            System.out.println(response);
+
             int firstPointer = response.indexOf(':');
             int secondPointer = response.indexOf(',');
-            int transactionID = Integer.parseInt(response.substring(firstPointer + 1, secondPointer));
+            int transactionID = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
             if (transactionID == 0) {
                 throw new OffsetFailedException();
             }
@@ -318,7 +318,7 @@ public class Connections {
     public static void updateTransaction(int id, int newOffsetAmount) throws TransactionUpdateFailedException {
         try {
             // request is of the form /offset/offset
-            URL url = new URL("http://localhost:8889/transaction/update");
+            URL url = new URL(serverURL + "/transaction/update");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setConnectTimeout(5000);
@@ -326,7 +326,7 @@ public class Connections {
             connection.setDoOutput(true);
 
             // Sends the request JSON expected by the server
-            String request = "{\"transaction_id\":" + id + ",carbon_cost_offset\":" + newOffsetAmount + "}";
+            String request = "{\"transaction_id\": " + id + ", \"carbon_cost_offset\": " + newOffsetAmount + "}";
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(request.getBytes());
 
@@ -348,10 +348,11 @@ public class Connections {
             }
 
              */
-
+            System.out.println(response);
             int firstPointer = response.indexOf(':');
             int secondPointer = response.indexOf('}');
-            boolean success = Boolean.parseBoolean(response.substring(firstPointer + 1, secondPointer));
+            boolean success = Boolean.parseBoolean(response.substring(firstPointer + 2, secondPointer));
+            System.out.println(success);
             if (!success) {
                 throw new TransactionUpdateFailedException();
             }

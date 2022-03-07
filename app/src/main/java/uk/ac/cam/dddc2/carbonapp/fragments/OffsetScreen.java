@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import uk.ac.cam.dddc2.carbonapp.Connections;
 import uk.ac.cam.dddc2.carbonapp.OffsetRecyclerAdaptor;
@@ -33,11 +35,6 @@ public class OffsetScreen extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setOffsetInfo();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,20 +53,32 @@ public class OffsetScreen extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adaptor);
+        setOffsetInfo(adaptor);
     }
 
-    private void setOffsetInfo() {
+    private void setOffsetInfo(OffsetRecyclerAdaptor adaptor) {
         Thread serverRequest = new Thread() {
             @Override
             public void run() {
-                // TODO: CHECK OFFSET TABLE IN DATABASE IS IMPLEMENTED
-                //offsetList.addAll(Connections.getOffsetOptions());
+                int oldSize = offsetList.size();
+                ArrayList<Offset> newOffsets= Connections.getOffsetOptions();
+                Collections.sort(newOffsets, (o1, o2) -> Integer.compare(o1.getVendorID(), o2.getVendorID()));
+                int newSize = newOffsets.size();
+                for (int i = oldSize; i < newSize; i++) {
+                    offsetList.add(newOffsets.get(i));
+                }
+
+                Runnable updateView = () -> adaptor.notifyItemRangeInserted(oldSize, newSize - oldSize);
+                getActivity().runOnUiThread(updateView);
 
                 // TEMPORARY OFFSET OPTIONS FOR TESTING PURPOSES
+                /*
                 offsetList.add(new Offset(1,
                         "Trees4Life",
                         "The Amazon Rainforest has suffered from intense deforestation in recent years. We aim to try and reverse this with your help!",
                         10));
+
+                 */
             }
         };
         serverRequest.start();

@@ -61,7 +61,7 @@ public class TransactionRecyclerAdaptor extends RecyclerView.Adapter<Transaction
         holder.carbonCostText.setText(carbonCost);
 
         holder.editButton.setOnClickListener(view -> {
-            TransactionInfoDialogFragment transactionInfoDialogFragment = new TransactionInfoDialogFragment();
+            TransactionInfoDialogFragment transactionInfoDialogFragment = new TransactionInfoDialogFragment(transactionList.get(position), this, position);
             transactionInfoDialogFragment.show(fragmentManager, "change_transaction_amount");
         });
 

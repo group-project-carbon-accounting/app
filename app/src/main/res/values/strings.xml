@@ -8,4 +8,9 @@
     <string name="offset_carbon">Offset carbon</string>
     <string name="sample_price">Sample Price</string>
     <string name="sample_description">Sample Description</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="failed_update">Failed to update</string>
+    <string name="you">Your carbon footprint: </string>
+    <string name="goal_screen_title">How does my weekly carbon usage compare?</string>
+    <string name="home_screen_title">Weekly carbon usage summary compared to average user</string>
 </resources>
