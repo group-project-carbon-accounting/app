@@ -64,7 +64,7 @@ public class HomeScreen extends Fragment {
         Thread serverRequest = new Thread() {
             @Override
             public void run() {
-                UserData userData = Connections.getUserData();
+                UserData userData = Connections.getUserCarbonData(7);
                 progress = (userData.getCarbonCost() - userData.getCarbonOffset()) / 1000;
                 updateProgress();
             }
@@ -82,13 +82,12 @@ public class HomeScreen extends Fragment {
         Runnable updateView = new Runnable() {
             @Override
             public void run() {
-                progressBar.setProgress(progress % 100);
+                progressBar.setProgress(((progress * 100) / GoalScreen.getUserGoal().getCarbonValue()));
                 progressText.set(progress + "kg / " + goal + "kg");
                 progressLabel.setText(progressText.get());
-                if (progress >= 50) {
+                if (progress >= GoalScreen.getUserGoal().getCarbonValue() / 2) {
                     image.setImageResource(R.drawable.sad);
-                }
-                if (progress < 50) {
+                } else {
                     image.setImageResource(R.drawable.thumbsup);
                 }
             }

@@ -52,7 +52,7 @@ public class OffsetRecyclerAdaptor extends RecyclerView.Adapter<OffsetRecyclerAd
     public void onBindViewHolder(@NonNull OffsetRecyclerAdaptor.OffsetViewHolder holder, int position) {
         String name = "Vendor: " + offsetList.get(position).getVendor();
         String description = offsetList.get(position).getDescription();
-        String price = "Price: " + offsetList.get(position).getPrice();
+        String price = "Price: " + offsetList.get(position).getPrice() + "$/kg";
         holder.nameText.setText(name);
         holder.descriptionText.setText(description);
         holder.priceText.setText(price);

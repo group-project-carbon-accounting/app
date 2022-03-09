@@ -1,10 +1,11 @@
 package uk.ac.cam.dddc2.carbonapp.datastores;
 
+// Class used for storing Offset information
 public class Offset {
-    private int vendorID;
-    private String vendor;
-    private String description;
-    private int price;
+    private final int vendorID;
+    private final String vendor;
+    private final String description;
+    private final int price;
 
     public Offset(int vendorID, String vendor, String description, int price) {
         this.vendorID = vendorID;
@@ -13,6 +14,7 @@ public class Offset {
         this.price = price;
     }
 
+    // Getter methods
     public int getVendorID() {
         return vendorID;
     }

@@ -21,11 +21,6 @@ import uk.ac.cam.dddc2.carbonapp.R;
 import uk.ac.cam.dddc2.carbonapp.TransactionRecyclerAdaptor;
 import uk.ac.cam.dddc2.carbonapp.datastores.Transaction;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StatsScreen} factory method to
- * create an instance of this fragment.
- */
 public class StatsScreen extends Fragment {
     private final ArrayList<Transaction> transactionList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -67,13 +62,8 @@ public class StatsScreen extends Fragment {
                 for (int i = oldSize; i < newSize; i++) {
                     transactionList.add(newTransactions.get(i));
                 }
-                System.out.println("got here");
                 Runnable updateView = () -> adaptor.notifyItemRangeInserted(oldSize, newSize - oldSize);
                 getActivity().runOnUiThread(updateView);
-
-
-                //transactionList.add(new Transaction(1, 10, 15, "Test1", "TestTime1"));
-                //transactionList.add(new Transaction(1, 10, 15, "Test1", "TestTime1"));
             }
         };
         serverRequest.start();

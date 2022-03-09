@@ -1,9 +1,10 @@
 package uk.ac.cam.dddc2.carbonapp.datastores;
 
+// Class used for storing information about the user
 public class UserData {
-    private String name;
-    private int carbonCost;
-    private int carbonOffset;
+    private final String name;
+    private final int carbonCost;
+    private final int carbonOffset;
 
     public UserData(String name, int carbonCost, int carbonOffset) {
         this.name = name;
@@ -11,6 +12,7 @@ public class UserData {
         this.carbonOffset = carbonOffset;
     }
 
+    // Getter methods
     public String getName() {
         return name;
     }

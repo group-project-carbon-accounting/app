@@ -1,11 +1,12 @@
 package uk.ac.cam.dddc2.carbonapp.datastores;
 
+// Class used for storing transaction information
 public class Transaction {
-    private int transactionID;
-    private int price;
+    private final int transactionID;
+    private final int price;
     private int carbonCostOffset;
-    private String vendor;
-    private String timestamp;
+    private final String vendor;
+    private final String timestamp;
 
     public Transaction(int transactionID, int price, int carbonCostOffset, String vendor, String timestamp) {
         this.transactionID = transactionID;
@@ -15,6 +16,7 @@ public class Transaction {
         this.timestamp = timestamp;
     }
 
+    // Getter methods
     public int getTransactionID() {
         return transactionID;
     }
@@ -35,6 +37,7 @@ public class Transaction {
         return timestamp;
     }
 
+    // Setter method
     public void setNewCarbonCost(int newCost) {
         // assumes that this function is only called with valid newCost
         carbonCostOffset = newCost;

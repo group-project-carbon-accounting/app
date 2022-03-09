@@ -53,15 +53,34 @@ public class TransactionRecyclerAdaptor extends RecyclerView.Adapter<Transaction
     public void onBindViewHolder(@NonNull TransactionRecyclerAdaptor.TransactionViewHolder holder, int position) {
         String timestamp = "Transaction time: " + transactionList.get(position).getTimestamp();
         String vendor = "Vendor: " + transactionList.get(position).getVendor();
-        String price = "Price: " + transactionList.get(position).getPrice();
-        String carbonCost = "Carbon Cost: " + transactionList.get(position).getCarbonCostOffset();
+        String price = String.valueOf(transactionList.get(position).getPrice());
+        int digitCount = price.length();
+        if (digitCount > 2) {
+            price = '$' + price.substring(0, digitCount - 2) + '.' + price.substring(digitCount - 2);
+        } else if (digitCount == 2) {
+            price = "$0." + price;
+        } else {
+            price = "$0.0" + price;
+        }
+        String carbonCost = "Carbon Cost: " + transactionList.get(position).getCarbonCostOffset() + 'g';
         holder.timestampText.setText(timestamp);
         holder.vendorText.setText(vendor);
         holder.priceText.setText(price);
         holder.carbonCostText.setText(carbonCost);
 
         holder.editButton.setOnClickListener(view -> {
-            TransactionInfoDialogFragment transactionInfoDialogFragment = new TransactionInfoDialogFragment(transactionList.get(position), this, position);
+            TransactionInfoDialogFragment transactionInfoDialogFragment;
+            if (transactionList.get(position).getPrice() >= 0) {
+                transactionInfoDialogFragment =
+                        new TransactionInfoDialogFragment(transactionList.get(position),
+                                this, position,
+                                TransactionInfoDialogFragment.TransactionType.TRANSACTION);
+            } else {
+                transactionInfoDialogFragment =
+                        new TransactionInfoDialogFragment(transactionList.get(position),
+                                this, position,
+                                TransactionInfoDialogFragment.TransactionType.OFFSET);
+            }
             transactionInfoDialogFragment.show(fragmentManager, "change_transaction_amount");
         });
 

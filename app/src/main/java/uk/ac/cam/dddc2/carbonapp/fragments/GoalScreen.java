@@ -43,17 +43,17 @@ public class GoalScreen extends Fragment {
         return idealUsers.get(6);
     }
 
-    private ProgressBar progressBarLeft1;
-    private ProgressBar progressBarLeft2;
+    private ProgressBar progressBarTop;
+    private ProgressBar progressBarTopCentre;
     private ProgressBar progressBarCentre;
-    private ProgressBar progressBarRight2;
-    private ProgressBar progressBarRight1;
+    private ProgressBar progressBarBottomCentre;
+    private ProgressBar progressBarBottom;
 
-    private TextView progressBarLeft1Label;
-    private TextView progressBarLeft2Label;
+    private TextView progressBarTopLabel;
+    private TextView progressBarTopCentreLabel;
     private TextView progressBarCentreLabel;
-    private TextView progressBarRight2Label;
-    private TextView progressBarRight1Label;
+    private TextView progressBarBottomCentreLabel;
+    private TextView progressBarBottomLabel;
 
     int currentCarbonValue;
 
@@ -77,22 +77,24 @@ public class GoalScreen extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        progressBarLeft1 = view.findViewById(R.id.progressBarTop);
-        progressBarLeft2 = view.findViewById(R.id.progressBarTopCentre);
+        // Stores references to the view objects
+        progressBarTop = view.findViewById(R.id.progressBarTop);
+        progressBarTopCentre = view.findViewById(R.id.progressBarTopCentre);
         progressBarCentre = view.findViewById(R.id.progressBarCentre);
-        progressBarRight2 = view.findViewById(R.id.progressBarBottom);
-        progressBarRight1 = view.findViewById(R.id.progressBarBottomCentre);
+        progressBarBottomCentre = view.findViewById(R.id.progressBarBottomCentre);
+        progressBarBottom = view.findViewById(R.id.progressBarBottom);
 
-        progressBarLeft1Label = view.findViewById(R.id.progressBarTopText);
-        progressBarLeft2Label = view.findViewById(R.id.progressBarTopCentreText);
+        progressBarTopLabel = view.findViewById(R.id.progressBarTopText);
+        progressBarTopCentreLabel = view.findViewById(R.id.progressBarTopCentreText);
         progressBarCentreLabel = view.findViewById(R.id.progressBarCentreText);
-        progressBarRight2Label = view.findViewById(R.id.progressBarBottomCentreText);
-        progressBarRight1Label = view.findViewById(R.id.progressBarBottomText);
+        progressBarBottomCentreLabel = view.findViewById(R.id.progressBarBottomCentreText);
+        progressBarBottomLabel = view.findViewById(R.id.progressBarBottomText);
 
+        // Thread for doing the server request and then updating the views
         Thread serverRequest = new Thread() {
             @Override
             public void run() {
-                UserData userData = Connections.getUserData();
+                UserData userData = Connections.getUserCarbonData(7);
                 currentCarbonValue = (userData.getCarbonCost() - userData.getCarbonOffset()) / 1000;
                 int idealUserCount = idealUsers.size();
                 int temp = -1;
@@ -108,99 +110,105 @@ public class GoalScreen extends Fragment {
                 } else {
                     j = idealUserCount;
                 }
+                // Runnable for updating the fragment views
                 Runnable updateView = new Runnable() {
                     @Override
                     public void run() {
                         String text;
                         if (j == 0) {
+                            // If the user's carbon usage is less than the first percentile value
                             int maxValue = idealUsers.get(j + 2).getCarbonValue();
-                            progressBarLeft1.setVisibility(View.INVISIBLE);
-                            progressBarLeft2.setVisibility(View.INVISIBLE);
+                            progressBarTop.setVisibility(View.INVISIBLE);
+                            progressBarTopCentre.setVisibility(View.INVISIBLE);
 
-                            progressBarRight2.setProgress(100);
+                            progressBarBottom.setProgress(100);
                             text = idealUsers.get(j + 1).getCombinedLabel();
-                            progressBarRight2Label.setText(text);
+                            progressBarBottomLabel.setText(text);
 
-                            progressBarRight1.setProgress((idealUsers.get(j).getCarbonValue()  * 100) / maxValue);
+                            progressBarBottomCentre.setProgress((idealUsers.get(j).getCarbonValue()  * 100) / maxValue);
                             text = idealUsers.get(j).getCombinedLabel();
-                            progressBarRight1Label.setText(text);
+                            progressBarBottomCentreLabel.setText(text);
 
                             // Dividing by 1000 to go from g -> kg and then * 100 for progressBar as %
                             progressBarCentre.setProgress((currentCarbonValue * 100) / maxValue);
                             text = "Your footprint: " + currentCarbonValue + "kg";
                             progressBarCentreLabel.setText(text);
                         } else if (j == 1) {
+                            // If the user's carbon usage is only greater than the smallest stored percentile value
                             int maxValue = idealUsers.get(j + 2).getCarbonValue();
-                            progressBarLeft1.setVisibility(View.INVISIBLE);
+                            progressBarTop.setVisibility(View.INVISIBLE);
 
-                            progressBarRight1.setProgress(100);
+                            progressBarBottom.setProgress(100);
                             text = idealUsers.get(j + 1).getCombinedLabel();
-                            progressBarRight1Label.setText(text);
+                            progressBarBottomLabel.setText(text);
 
-                            progressBarRight2.setProgress((idealUsers.get(j).getCarbonValue()  * 100) / maxValue);
+                            progressBarBottomCentre.setProgress((idealUsers.get(j).getCarbonValue()  * 100) / maxValue);
                             text = idealUsers.get(j).getCombinedLabel();
-                            progressBarRight2Label.setText(text);
+                            progressBarBottomCentreLabel.setText(text);
 
                             // Dividing by 1000 to go from g -> kg and then * 100 for progressBar as %
                             progressBarCentre.setProgress((currentCarbonValue * 100) / maxValue);
                             text = "Your footprint: " + currentCarbonValue + "kg";
                             progressBarCentreLabel.setText(text);
 
-                            progressBarLeft2.setProgress((idealUsers.get(0).getCarbonValue() * 100) / maxValue);
+                            progressBarTopCentre.setProgress((idealUsers.get(0).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(0).getCombinedLabel();
-                            progressBarLeft2Label.setText(text);
+                            progressBarTopCentreLabel.setText(text);
                         } else if (j == idealUserCount) {
+                            // If the user's carbon usage is greater than all the stored percentile values
                             int maxValue = currentCarbonValue;
-                            progressBarRight1.setVisibility(View.INVISIBLE);
-                            progressBarRight2.setVisibility(View.INVISIBLE);
+                            progressBarBottom.setVisibility(View.INVISIBLE);
+                            progressBarBottomCentre.setVisibility(View.INVISIBLE);
 
                             progressBarCentre.setProgress(100);
                             text = "Your footprint: " + currentCarbonValue + "kg";
                             progressBarCentreLabel.setText(text);
 
-                            progressBarLeft1.setProgress((idealUsers.get(j - 2).getCarbonValue() * 100) / maxValue);
+                            progressBarTop.setProgress((idealUsers.get(j - 2).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j - 2).getCombinedLabel();
-                            progressBarLeft1Label.setText(text);
+                            progressBarTopLabel.setText(text);
 
-                            progressBarLeft2.setProgress((idealUsers.get(j - 1).getCarbonValue() * 100) / maxValue);
+                            progressBarTopCentre.setProgress((idealUsers.get(j - 1).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j - 1).getCombinedLabel();
-                            progressBarLeft2Label.setText(text);
+                            progressBarTopCentreLabel.setText(text);
                         } else if (j == idealUserCount - 1) {
+                            // If the user's carbon usage is greater than all except the highest stored percentile value
                             int maxValue = idealUsers.get(j).getCarbonValue();
-                            progressBarRight1.setVisibility(View.INVISIBLE);
+                            progressBarBottom.setVisibility(View.INVISIBLE);
 
                             progressBarCentre.setProgress(100);
                             text = "Your footprint: " + currentCarbonValue + "kg";
                             progressBarCentreLabel.setText(text);
 
-                            progressBarLeft1.setProgress((idealUsers.get(j - 2).getCarbonValue() * 100) / maxValue);
+                            progressBarTop.setProgress((idealUsers.get(j - 2).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j - 2).getCombinedLabel();
-                            progressBarLeft1Label.setText(text);
+                            progressBarTopLabel.setText(text);
 
-                            progressBarLeft2.setProgress((idealUsers.get(j - 1).getCarbonValue() * 100) / maxValue);
+                            progressBarTopCentre.setProgress((idealUsers.get(j - 1).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j - 1).getCombinedLabel();
-                            progressBarLeft2Label.setText(text);
+                            progressBarTopCentreLabel.setText(text);
 
-                            progressBarRight2.setProgress((idealUsers.get(j).getCarbonValue() * 100) / maxValue);
+                            progressBarBottomCentre.setProgress((idealUsers.get(j).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j).getCombinedLabel();
-                            progressBarRight2Label.setText(text);
+                            progressBarBottomCentreLabel.setText(text);
                         } else {
+                            // If there are least 2 percentile values below and above the user's carbon usage
                             int maxValue = idealUsers.get(j + 1).getCarbonValue();
-                            progressBarRight1.setProgress(100);
+                            progressBarBottom.setProgress(100);
                             text = idealUsers.get(j + 1).getCombinedLabel();
-                            progressBarRight1Label.setText(text);
+                            progressBarBottomLabel.setText(text);
 
-                            progressBarLeft1.setProgress((idealUsers.get(j - 2).getCarbonValue() * 100) / maxValue);
+                            progressBarTop.setProgress((idealUsers.get(j - 2).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j - 2).getCombinedLabel();
-                            progressBarLeft1Label.setText(text);
+                            progressBarTopLabel.setText(text);
 
-                            progressBarLeft2.setProgress((idealUsers.get(j - 1).getCarbonValue() * 100) / maxValue);
+                            progressBarTopCentre.setProgress((idealUsers.get(j - 1).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j - 1).getCombinedLabel();
-                            progressBarLeft2Label.setText(text);
+                            progressBarTopCentreLabel.setText(text);
 
-                            progressBarRight2.setProgress((idealUsers.get(j).getCarbonValue() * 100) / maxValue);
+                            progressBarBottomCentre.setProgress((idealUsers.get(j).getCarbonValue() * 100) / maxValue);
                             text = idealUsers.get(j).getCombinedLabel();
-                            progressBarRight2Label.setText(text);
+                            progressBarBottomCentreLabel.setText(text);
 
                             progressBarCentre.setProgress((currentCarbonValue * 100) / maxValue);
                             text = "Your footprint: " + currentCarbonValue + "kg";
@@ -208,9 +216,11 @@ public class GoalScreen extends Fragment {
                         }
                     }
                 };
+                // Updates the UI on the UI thread as this can't be done from another thread
                 getActivity().runOnUiThread(updateView);
             }
         };
+        // Starts the server request on another thread as this can't be done on the main thread
         serverRequest.start();
     }
 }

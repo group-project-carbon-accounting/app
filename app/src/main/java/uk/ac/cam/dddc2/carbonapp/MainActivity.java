@@ -17,19 +17,11 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
-    /*
-
-    private ProgressBar mProgressBar;
-    private int mProgressStatus = 0;
-
-    private ArrayList<Offset> offsetList = new ArrayList<>();
-    private RecyclerView recyclerView;
-
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Creates the fragments and the navigation bar
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         HomeScreen homeScreen = new HomeScreen();

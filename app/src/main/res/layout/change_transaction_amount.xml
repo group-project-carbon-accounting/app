@@ -8,21 +8,34 @@
         android:id="@+id/editTransactionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose new amount" />
+        android:text="@string/choose_new_amount" />
 
-    <EditText
-        android:id="@+id/editTransactionAmountEntry"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
-        android:inputType="number" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTransactionAmountEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/_1000"
+            android:imeOptions="actionDone"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/g" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/confirmTransactionUpdateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Confirm"
+        android:text="@string/confirm"
         android:textAllCaps="false"/>
 
     <TextView

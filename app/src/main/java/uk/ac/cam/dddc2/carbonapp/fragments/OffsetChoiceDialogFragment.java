@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import uk.ac.cam.dddc2.carbonapp.Connections;
@@ -38,19 +39,22 @@ public class OffsetChoiceDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Brings the pop-up to the screen
         offsetAmountEntry = view.findViewById(R.id.offsetAmountEntry);
         offsetAmountEntry.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
+        // Stores references to the views and sets up the confirm button
         responseMessageText = view.findViewById(R.id.responseMessageText);
 
         confirmButton = view.findViewById(R.id.confirmOffsetButton);
         confirmButton.setOnClickListener(view1 -> {
             try {
                 int offsetAmount = Integer.parseInt(offsetAmountEntry.getText().toString());
+                // Thread for making the update request to the server as this can't be done on the main thread
                 Thread serverPost = new Thread() {
                     @Override
                     public void run() {

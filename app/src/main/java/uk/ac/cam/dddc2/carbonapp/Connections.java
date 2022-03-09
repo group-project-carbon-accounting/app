@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 
@@ -16,8 +18,7 @@ import uk.ac.cam.dddc2.carbonapp.datastores.UserData;
 import uk.ac.cam.dddc2.carbonapp.exceptions.OffsetFailedException;
 import uk.ac.cam.dddc2.carbonapp.exceptions.TransactionUpdateFailedException;
 
-
-// TODO: Potentially replace timestamp datatype with Date instead of String after checking what format the server returns
+// Class containing all server requests
 public class Connections {
     private static final String serverURL = "http://10.30.62.138:8889";
 
@@ -28,7 +29,6 @@ public class Connections {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
-            //connection.setReadTimeout(5000);
 
             String line;
             StringBuilder responseString = new StringBuilder();
@@ -40,8 +40,6 @@ public class Connections {
 
             String response = responseString.toString();
 
-            // {"carbon_offset": 0, "carbon_cost": 0, "name": "Albert"}
-
             /* At this point response should have the form:
 
             {
@@ -49,6 +47,8 @@ public class Connections {
                 "carbon_cost: *,
                 "name": *
              }
+
+             Example response: {"carbon_offset": 0, "carbon_cost": 0, "name": "Albert"}
 
              */
 
@@ -77,8 +77,51 @@ public class Connections {
             e.printStackTrace();
         }
 
-        // Should never get here
+
+        // In case something goes wrong
         return new UserData("Error", 0, 0);
+    }
+
+    public static UserData getUserCarbonData(int dayCount) {
+        try {
+            // request is of the form /transaction/get_recent/{user_id}/{num_of_days}
+            URL url = new URL(serverURL + "/transaction/get_recent/1/" + dayCount);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            String line;
+            StringBuilder responseString = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseString.append(line);
+            }
+            reader.close();
+
+            String response = responseString.toString();
+            System.out.println(response);
+
+            int carbonCost;
+            int carbonOffset;
+
+            int firstPointer;
+            int secondPointer;
+
+            firstPointer = response.indexOf(':');
+            secondPointer = response.indexOf(',', firstPointer + 1);
+            carbonCost = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
+
+            firstPointer = response.indexOf(':', secondPointer);
+            secondPointer = response.indexOf(',', secondPointer + 1);
+            carbonOffset = Integer.parseInt(response.substring(firstPointer + 2, secondPointer));
+
+            return new UserData(Connections.getUserData().getName(), carbonCost, carbonOffset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // In case something goes wrong
+        return new UserData("Error", 0, 0);
+
     }
 
     public static ArrayList<Transaction> getTransactionsForPeriod(int dayCount) {
@@ -88,8 +131,6 @@ public class Connections {
             URL url = new URL(serverURL + "/transaction/get_recent/1/" + dayCount);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
 
             String line;
             StringBuilder responseString = new StringBuilder();
@@ -101,7 +142,7 @@ public class Connections {
 
             String response = responseString.toString();
 
-            //{"carbon_cost": 0, "carbon_offset": 0, "transactions": [{"transaction_id": 1, "price": 1200, "carbon_cost_offset": 0, "vendor": 6, "timestamp": 1646263071}]}
+            //
 
             /* At this point response should have the form:
 
@@ -124,9 +165,11 @@ public class Connections {
                     ]
              }
 
+            Example response: {"carbon_cost": 0, "carbon_offset": 0, "transactions": [{"transaction_id": 1, "price": 1200, "carbon_cost_offset": 0, "vendor": 6, "timestamp": 1646263071}]}
+
              */
 
-
+            System.out.println(response);
             boolean continueLoop = true;
 
             int firstPointer = response.indexOf('[');
@@ -300,7 +343,6 @@ public class Connections {
 
              */
 
-            System.out.println(response);
 
             int firstPointer = response.indexOf(':');
             int secondPointer = response.indexOf(',');
@@ -348,11 +390,9 @@ public class Connections {
             }
 
              */
-            System.out.println(response);
             int firstPointer = response.indexOf(':');
             int secondPointer = response.indexOf('}');
             boolean success = Boolean.parseBoolean(response.substring(firstPointer + 2, secondPointer));
-            System.out.println(success);
             if (!success) {
                 throw new TransactionUpdateFailedException();
             }

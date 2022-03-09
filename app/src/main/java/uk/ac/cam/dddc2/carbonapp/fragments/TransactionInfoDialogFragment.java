@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import uk.ac.cam.dddc2.carbonapp.Connections;
@@ -25,12 +26,18 @@ public class TransactionInfoDialogFragment extends DialogFragment {
     private Transaction transaction;
     private TransactionRecyclerAdaptor adaptor;
     private int position;
+    private TransactionType transactiontype;
+    public enum TransactionType {
+        TRANSACTION,
+        OFFSET
+    }
 
 
-    public TransactionInfoDialogFragment(Transaction transaction, TransactionRecyclerAdaptor adaptor, int position) {
+    public TransactionInfoDialogFragment(Transaction transaction, TransactionRecyclerAdaptor adaptor, int position, TransactionType transactionType) {
         this.transaction = transaction;
         this.adaptor = adaptor;
         this.position = position;
+        this.transactiontype = transactionType;
     }
 
     @Override
@@ -39,7 +46,7 @@ public class TransactionInfoDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         transactionAmountEntry = view.findViewById(R.id.editTransactionAmountEntry);
@@ -56,7 +63,14 @@ public class TransactionInfoDialogFragment extends DialogFragment {
                     @Override
                     public void run() {
                         try {
-                            Connections.updateTransaction(transaction.getTransactionID(), newCarbonCost);
+                            switch (transactiontype) {
+                                case TRANSACTION:
+                                    Connections.updateTransaction(transaction.getTransactionID(), newCarbonCost);
+                                    break;
+                                case OFFSET:
+                                    Connections.updateTransaction(transaction.getTransactionID(), -1 * newCarbonCost);
+                                    break;
+                            }
                             transaction.setNewCarbonCost(newCarbonCost);
                             Runnable updateView = () -> adaptor.notifyItemChanged(position);
                             getActivity().runOnUiThread(updateView);

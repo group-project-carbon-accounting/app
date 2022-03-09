@@ -21,11 +21,6 @@ import uk.ac.cam.dddc2.carbonapp.OffsetRecyclerAdaptor;
 import uk.ac.cam.dddc2.carbonapp.R;
 import uk.ac.cam.dddc2.carbonapp.datastores.Offset;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OffsetScreen} factory method to
- * create an instance of this fragment.
- */
 public class OffsetScreen extends Fragment {
 
     private final ArrayList<Offset> offsetList = new ArrayList<>();

@@ -13,4 +13,9 @@
     <string name="you">Your carbon footprint: </string>
     <string name="goal_screen_title">How does my weekly carbon usage compare?</string>
     <string name="home_screen_title">Weekly carbon usage summary compared to average user</string>
+    <string name="choose_amount">Choose amount</string>
+    <string name="_1000">1000</string>
+    <string name="g">g</string>
+    <string name="confirm">Confirm</string>
+    <string name="choose_new_amount">Choose new amount</string>
 </resources>
